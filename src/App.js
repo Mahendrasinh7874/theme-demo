@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
+import { Moon, Sun } from "lucide-react";
+import { useEffect, useState } from "react";
+
+export default function App() {
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedMode = localStorage.getItem("themeMode");
+    return savedMode === "dark";
+  });
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    localStorage.setItem("themeMode", isDarkMode ? "dark" : "light");
+
+  }, [isDarkMode]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='bg-primary text-gray-900 min-h-screen flex items-center justify-center'>
+      {isDarkMode ? <Moon onClick={() => setIsDarkMode(!isDarkMode)} size={25} className="text-brand h-5 w-5 absolute right-10 top-10 cursor-pointer" /> :
+        <Sun onClick={() => setIsDarkMode(!isDarkMode)} size={25} className="text-brand h-5 w-5 absolute right-10 top-10 cursor-pointer" />
+      }
+      <h1 className="text-2xl text-brand">Home</h1>
     </div>
+
   );
 }
-
-export default App;
